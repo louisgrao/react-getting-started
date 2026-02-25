@@ -65,7 +65,13 @@ export default function App() {
 
 export default function MyApp() {
   let content;
-  let condition = false;
+  const condition = false;
+
+  const [clicks2, setClicks2] = useState(0);
+
+  function handleClicks2() {
+    setClicks2(clicks2 + 1);
+  }
 
   if (condition) {
     content = <Truthy />;
@@ -76,8 +82,12 @@ export default function MyApp() {
     <div>
       <h1>Hello world</h1>
       {content}
-      <MyButton />
-      <MyButton />
+      <p>independant buttons:</p>
+      <MyButton1 />
+      <MyButton1 />
+      <p>synchronised buttons:</p>
+      <MyButton2 clicks={clicks2} handleClicks={handleClicks2} />
+      <MyButton2 clicks={clicks2} handleClicks={handleClicks2} />
       <Products />
       <Colors />
     </div>
@@ -90,13 +100,19 @@ function Truthy() {
 function Falsy() {
   return <p>Falsy</p>;
 }
-function MyButton() {
+function MyButton1() {
   const [clicks, setClicks] = useState(0);
 
   return (
     <button onClick={() => setClicks(clicks + 1)}>
       Click Me{" Again".repeat(clicks)}!
     </button>
+  );
+}
+
+function MyButton2({ clicks, handleClicks }) {
+  return (
+    <button onClick={handleClicks}>Click Me{" Again".repeat(clicks)}!</button>
   );
 }
 
@@ -112,7 +128,7 @@ function Products() {
 }
 
 function Colors() {
-  let colors = [{ name: "red" }, { name: "purple" }, { name: "green" }];
+  const colors = [{ name: "red" }, { name: "purple" }, { name: "green" }];
 
   const listColors = colors.map((color) => <li>{color.name}</li>);
   return <ul>{listColors}</ul>;
